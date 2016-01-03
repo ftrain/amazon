@@ -1,6 +1,7 @@
 from models import *
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 import gzip
+import sys
 import pprint
 import time
 import re
@@ -9,10 +10,15 @@ import itertools
 import HTMLParser
 import multiprocessing
 h = HTMLParser.HTMLParser()
+#DIR = ''
+#METADATA = '{}'.format(DIR, FILE)
+METADATA = sys.argv[1]
+
+print "Parsing in {}".format(METADATA)
 
 def parse(path, skip):
   i = 0
-  g = gzip.open(path, 'r')
+  g = open(path, 'r')
   for line in itertools.islice(g,skip,None):
       yield eval(line)
 
@@ -113,7 +119,7 @@ def __main__():
   for b in session.query(Brand):
     brand_dict[b.title] = b
   
-  for product in parse('/Volumes/BWArchive/Amazon/metadata.json.gz', 4611798):
+  for product in parse(METADATA, 0):
     i = i + 1
     if i % 1000 == 0:
       now = time.time()

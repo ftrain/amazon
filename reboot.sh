@@ -7,3 +7,6 @@ EOF
 psql <<EOF amazon
 CREATE EXTENSION IF NOT EXISTS ltree WITH SCHEMA public;
 EOF
+
+#rm related.tsv
+python models.py

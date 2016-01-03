@@ -45,8 +45,8 @@ class Brand(Base):
 class ProductCategoryAssociation(Base):
     __tablename__ = 'product_category_association'
     id = Column(Integer, primary_key=True)    
-    product_id = Column(String, ForeignKey('product.id'))
-    category_id = Column(Integer, ForeignKey('category.id'))
+    product_id = Column(String)
+    category_id = Column(Integer)
     
 class LikeProductAssociation(Base):
     __tablename__ = 'like_product_association'
@@ -56,9 +56,9 @@ class LikeProductAssociation(Base):
                             'buy_after_viewing',
                             'bought_together',
                             name='like_types'))
-    #, ForeignKey('product.id')    
-    product_id = Column(String)
-    like_product_id = Column(String)
+    
+    product_id = Column(String, ForeignKey('product.id'))
+    like_product_id = Column(String, ForeignKey('product.id'))
 
 class Product(Base):
     __tablename__ = 'product'
@@ -72,19 +72,11 @@ class Product(Base):
     image_url = Column(String)
     rank_category = Column(String)
     ranking = Column(Integer)
-#    ranking = relationship("Ranking", backref="rankings")
-    categories = relationship("ProductCategoryAssociation", backref="categories")    
+#    categories = relationship("ProductCategoryAssociation", backref="categories")    
     brand_id = Column(Integer, ForeignKey('brand.id'))
     search_vector_title = Column(TSVectorType('title'))
     search_vector_description = Column(TSVectorType('description'))
     
-class Ranking(Base):
-    __tablename__ = 'ranking'
-    id = Column(Integer, primary_key=True)        
-    product_id = Column(String, ForeignKey('product.id'))
-    category_id = Column(Integer, ForeignKey('category.id'))
-    ranking = Column(Integer)
-
 class Reviewer(Base):
     __tablename__ = 'reviewer'
     id = Column(String, primary_key=True)    
